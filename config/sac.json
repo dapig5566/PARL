@@ -1,0 +1,43 @@
+{
+    "disable_env_checking": true,
+    "env": "OrderEnv-v2",
+    "env_config": {
+        "num_cars": 3,
+        "num_couriers": 1,
+        "max_episode_length": 100,
+        "wrap_obs": false, 
+        "use_gymnasium": true,
+        "ablation": null,
+        "random_episode": false,
+        "coeff": {
+            "robot_reward_scale": 2,
+            "entropy_reward_scale": 2.5,
+            "delv_reward_scale": 5,
+            "wb_reward_scale": 1,
+            "reg_scale": 0
+        }
+    },
+    "num_workers": 6,
+    "framework": "torch",
+    "model": {
+        "custom_model": "cdp_sac",
+        "custom_model_config": {
+        }
+    },
+    "q_model_config": {
+        "custom_model": "cdp_qmodel",
+        "custom_model_config": {
+        }
+    },
+    "policy_model_config": {
+        "custom_model": "cdp_model",
+        "custom_model_config": {
+        }
+    },
+    "optimization": {
+        "actor_learning_rate": 2.5e-5,
+        "critic_learning_rate": 2.5e-5,
+        "entropy_learning_rate": 2.5e-5
+    },
+    "train_batch_size": 256
+}

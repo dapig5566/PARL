@@ -1,0 +1,55 @@
+{
+    "disable_env_checking": true,
+    "env": "OrderEnv-v2",
+    "env_config": {
+        "num_cars": 3, 
+        "num_couriers": 1,
+        "max_episode_length": 100,
+        "wrap_obs": false, 
+        "use_gymnasium": true,
+        "ablation": null,
+        "random_episode": false,
+        "coeff": {
+            "robot_reward_scale": 2,
+            "entropy_reward_scale": 2.5,
+            "delv_reward_scale": 5,
+            "wb_reward_scale": 1,
+            "reg_scale": 0
+        }
+    },
+    "num_workers": 1,
+    "num_gpus": 1,
+    
+    "framework": "torch",
+    "model": {
+        "custom_model": "cdp_az",
+        "custom_model_config": {
+        }
+    },
+    
+    "replay_buffer_config": {
+        "type": "ReplayBuffer",
+        "capacity": 1000,
+        "storage_unit": "fragments"
+    },
+    
+    "mcts_config": {
+       "puct_coefficient": 1.5,
+       "num_simulations": 20,
+       "temperature": 1.0,
+       "dirichlet_epsilon": 0.20,
+       "dirichlet_noise": 0.03,
+       "argmax_tree_policy": false,
+       "add_dirichlet_noise": true
+    },
+
+    "ranked_rewards": {
+       "enable": true
+    },
+    
+    "rollout_fragment_length": 10,
+    "train_batch_size": 128,
+    "sgd_minibatch_size": 32,
+    "num_sgd_iter": 1,
+    "lr": 2.5e-4
+}

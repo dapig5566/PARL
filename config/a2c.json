@@ -1,0 +1,31 @@
+{
+    "lr": 2.5e-5,
+    "disable_env_checking": true,
+    "env": "OrderEnv-v2",
+    "env_config": {
+        "num_cars": 3, 
+        "num_couriers": 1,
+        "max_episode_length": 100,
+        "wrap_obs": false, 
+        "use_gymnasium": true,
+        "ablation": null,
+        "random_episode": false,
+        "coeff": {
+            "robot_reward_scale": 3.5,
+            "entropy_reward_scale": 2.5,
+            "delv_reward_scale": 5,
+            "wb_reward_scale": 1,
+            "reg_scale": 0
+        }
+    },
+    "num_workers": 6,
+    "framework": "torch",
+    "train_batch_size": 256,
+    "model": {
+        "custom_model": "cdp_model",
+        
+        "custom_model_config": {
+        }
+    },
+    "entropy_coeff": 0.5
+}
