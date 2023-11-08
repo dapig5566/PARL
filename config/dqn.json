@@ -17,7 +17,7 @@
             "reg_scale": 0
         }
     },
-    "num_workers": 6,
+    "num_workers": 8,
     "num_gpus": 1,
     "framework": "torch",
     "model": {
