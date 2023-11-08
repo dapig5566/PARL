@@ -15,10 +15,12 @@ For data attributes and details, please refer to [data](https://github.com/dapig
 
 ## Model
 The trained PARL model is uploaded to Google Drive: <https://drive.google.com/file/d/1B6j3qNgwCtSO8r7wVDk3DxbP16Jvc0J5/view?usp=sharing>.
+
 Unzip the file into `models` folder and use argument `--ckpt_path <path>` to load model checkpoint.
 
 ## Pre-training Weights
-The Pre-training weights is uploaded to Google Drive: <https://drive.google.com/file/d/1cdIkisMt04vcGxmIcosWVOiLssfa2UCB/view?usp=sharing>
+The Pre-training weights is uploaded to Google Drive: <https://drive.google.com/file/d/1cdIkisMt04vcGxmIcosWVOiLssfa2UCB/view?usp=sharing>.
+
 Unzip the file into `weights/pretrain` folder and use argument `--weight_path <path>` to specify the pretraining weights used in RL phase.
 
 ## Train
