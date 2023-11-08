@@ -489,6 +489,21 @@ class CDPModel_TDQN_with_pretrain(TorchModelV2, nn.Module):
                       out_features=TSF_FUSION_SIZE),
             nn.ReLU()
         )
+        # if not self.pre_train:
+        #     self.fusion3 = nn.Sequential(
+        #         nn.Linear(in_features=USER_EMBEDDING_SIZE + CNN_HIDDEN,
+        #                 out_features=TSF_FUSION_SIZE),
+        #         nn.BatchNorm1d(TSF_FUSION_SIZE),
+        #         nn.ReLU()
+        #     )
+        # else:
+        #     self.fusion3 = nn.Sequential(
+        #         nn.Linear(in_features=USER_EMBEDDING_SIZE,
+        #                 out_features=TSF_FUSION_SIZE),
+        #         nn.BatchNorm1d(TSF_FUSION_SIZE),
+        #         nn.ReLU()
+        #     )
+        
         if not self.pre_train:
             self.fusion3 = nn.Sequential(
                 nn.Linear(in_features=USER_EMBEDDING_SIZE + CNN_HIDDEN,
@@ -579,6 +594,7 @@ class CDPModel_TDQN_with_pretrain(TorchModelV2, nn.Module):
         # cat_feature = torch.cat([attention_repr, level_est], dim=-1)
 
         # self.inner_feature = self.fusion3(cat_feature)
+        
         if not self.pre_train:
             cat_feature = torch.cat([transformer_output, dispatch_map_repr], dim=-1)
         else:
@@ -607,7 +623,7 @@ class CDPModel_TDQN_with_pretrain(TorchModelV2, nn.Module):
         else:
             
             self.inner_feature = all_feature
-        # self.inner_feature = self.fusion(transformer_output)
+            # self.inner_feature = self.fusion(transformer_output)
 
             return self.inner_feature, state
     

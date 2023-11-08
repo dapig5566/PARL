@@ -27,10 +27,10 @@ with open(os.path.join(new_data_root, "user_list_v2.pkl"), "rb") as f:
 INDEX_USER = dict([(i+1, u) for i, u in enumerate(user_list)])
 USER_INDEX = dict([(u, i+1) for i, u in enumerate(user_list)])
 
-NUM_CARS = 2
+NUM_CARS = 3
 NUM_COURIERS = 1
 
-MAX_LEN = 100
+MAX_LEN = 300
 NUM_ACTIONS = NUM_CARS * 7 + NUM_COURIERS
 NUM_ITERS = 4000
 CAR_SPEED = 2.3
