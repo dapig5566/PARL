@@ -11,7 +11,7 @@ from ray.rllib.models import ModelCatalog
 from ray.tune.registry import register_env
 from multi_agent_env import MockEnvWithGroupedAgents
 from algo import CDPModel, CDPModel_DQNver, CDP_QModel
-from policy_model import CDPModel_DQN_with_pretrain, CDPModel_AlphaZero, DTWrappedRecurrentTDQN
+from policy_model import CDPModel_DQN_with_pretrain, CDPModel_AlphaZero, DTWrappedRecurrentTDQN, CDPModel_TDQN_with_pretrain
 from rdqn_v3 import WrappedRecurrentDQN
 from cdp_sac import CDPSACTorchModel
 from env import OrderEnv2
@@ -32,6 +32,7 @@ ModelCatalog.register_custom_model("cdp_model_dqnver", CDPModel_DQNver)
 ModelCatalog.register_custom_model("cdp_qmodel", CDP_QModel)
 ModelCatalog.register_custom_model("cdp_sac", CDPSACTorchModel)
 ModelCatalog.register_custom_model("cdp_dqn_pt", CDPModel_DQN_with_pretrain)
+ModelCatalog.register_custom_model("cdp_tdqn_pt", CDPModel_TDQN_with_pretrain)
 ModelCatalog.register_custom_model("cdp_az", CDPModel_AlphaZero)
 ModelCatalog.register_custom_model("WrappedRecurrentDQN", WrappedRecurrentDQN)
 ModelCatalog.register_custom_model("DTWrappedRecurrentTDQN", DTWrappedRecurrentTDQN)
@@ -596,6 +597,7 @@ if __name__ == "__main__":
     parser.add_argument("--do_eval", action="store_true", default=False)
     parser.add_argument("--do_train", action="store_true", default=False)
     parser.add_argument("--num_steps", type=int, default=2000)
+    parser.add_argument("--model", type=str, default='PARL')
     parser.add_argument("--config_path", type=str, default="config/parl.json")
     parser.add_argument("--ckpt_path", type=str, default=None)
     parser.add_argument("--weight_path", type=str, default="./weights/pretrain/TDQN_new_datadist_v4")
@@ -613,18 +615,62 @@ if __name__ == "__main__":
         config = json.load(f)
     
     if args.do_train:
-        train_parl(
-            exp_name=exp_name,
-            weight_path=os.path.join(weight_path, "state_dict.pt"),
-            config=config,
-            iterations=num_steps,
-            restore_path=ckpt_path
-        )
+        if args.model == 'PARL':
+            train_parl(
+                exp_name=exp_name,
+                weight_path=os.path.join(weight_path, "state_dict.pt"),
+                config=config,
+                iterations=num_steps,
+                restore_path=ckpt_path
+            )
+        elif args.model == 'A2C':
+            train_a2c(
+                exp_name=exp_name,
+                weight_path=os.path.join(weight_path, "state_dict.pt"),
+                config=config,
+                iterations=num_steps,
+                restore_path=ckpt_path
+            )
+        elif args.model == 'SAC':
+            train_sac(
+                exp_name=exp_name,
+                weight_path=os.path.join(weight_path, "state_dict.pt"),
+                config=config,
+                iterations=num_steps,
+                restore_path=ckpt_path
+            )
+        elif args.model == 'AlphaZero':
+            train_alpha_zero(
+                exp_name=exp_name,
+                weight_path=os.path.join(weight_path, "state_dict.pt"),
+                config=config,
+                iterations=num_steps,
+                restore_path=ckpt_path
+            )
+        elif args.model == 'DQN':
+            train_dqn(
+                exp_name=exp_name,
+                weight_path=os.path.join(weight_path, "state_dict.pt"),
+                config=config,
+                iterations=num_steps,
+                restore_path=ckpt_path
+            )
+        else:
+            raise RuntimeError(f"No matching model selected. Possible models: PARL, A2C, SAC, AlphaZero, DQN, got {args.model}")
+        
     elif args.do_eval:
         if ckpt_path is None:
             raise RuntimeError("Please set a check point path (--ckpt_path <path>) to do evaluation.")
+        algo_class = {
+            "PARL": R2D2,
+            "A2C": A2C,
+            "SAC": SAC,
+            "AlphaZero": AlphaZero,
+            "DQN": DQN
+        }
+        
         evaluate(
-            algo_cls=R2D2,
+            algo_cls=algo_class[args.model],
             restore_path=ckpt_path, 
             config=config,
             recurrent=True
