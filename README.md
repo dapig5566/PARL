@@ -10,7 +10,7 @@ pip install -r requirements.txt
 
 ## Data
 The data used in our paper is in `data` folder, the data are processed and contains the historical orders for users and delivery. 
-Please unzip `dataset.zip` and copy the `.pkl` the files into `data` folder. The paths should be like `data/xxx.pkl`.
+Please unzip `dataset.zip` and copy `.pkl` files into `data` folder. The paths should be like `data/xxx.pkl`.
 For data attributes and details, please refer to [data](https://github.com/dapig5566/PARL/tree/main/data)
 
 ## Model
