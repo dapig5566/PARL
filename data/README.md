@@ -1,5 +1,7 @@
 # Data details
-The data used in the paper contains two parts: **order data** and **history data**.
+We provide the processed Beijing and Changshu datasets that are used in the paper.
+The dataset contains two parts: **order data** and **history data**.
+
 
 Target order data is a pickle file that stores a nested List. The first dimension of is the month, the second dimension is the day, the third dimension is the order item. 
 For each item, the attributes are described as follows:
